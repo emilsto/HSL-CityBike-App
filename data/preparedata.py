@@ -34,6 +34,12 @@ print('July 2021: ', july_2021.shape[0])
 # Combine the dataframes
 df = pd.concat([may_2021, june_2021, july_2021])
 
+# Edit the column names
+df.columns = ['departure', 'return', 'departure_station_id', 'departure_station_name', 'return_station_id', 'return_station_name', 'distance_m', 'duration_sec']
+
+
+
+
 # Print the number of rows in the combined dataframe
 print('Combined: ', df.shape[0])
 
