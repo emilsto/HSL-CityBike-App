@@ -3,7 +3,7 @@ import pandas as pd
 # This is a small script to get an idea of the data im working with
 
 # Read the data to a dataframe
-df = pd.read_csv('combined.csv')
+df = pd.read_csv('../db/bikedata.csv')
 
 # Check for missing values, sanity check
 print("Missing values:")
