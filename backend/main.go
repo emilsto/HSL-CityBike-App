@@ -40,6 +40,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
 
+//simple test query
 func getFirstTenRows(conn *sql.DB) error {
 	// get some data
 	rows, err := conn.Query("SELECT id, departure_station_name, return_station_name FROM hsl_schema.trips LIMIT 10")
