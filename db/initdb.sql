@@ -1,6 +1,10 @@
 CREATE DATABASE bikedata;
 
-CREATE TABLE trips (
+\connect bikedata;
+
+CREATE SCHEMA hsl_schema;
+
+CREATE TABLE hsl_schema.trips (
     id SERIAL PRIMARY KEY,
     departure TIMESTAMP NOT NULL,
     return TIMESTAMP NOT NULL,
@@ -12,8 +16,11 @@ CREATE TABLE trips (
     duration_sec INT NOT NULL
 );
 
-GRANT ALL PRIVILEGES ON TABLE trips TO postgres;
+ALTER DATABASE bikedata OWNER TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE bikedata TO postgres;
 
-COPY trips (departure, return, departure_station_id, departure_station_name, return_station_id, return_station_name, distance_m, duration_sec) FROM '/bikedata.csv' DELIMITER ',' CSV HEADER;
+COPY hsl_schema.trips (departure, return, departure_station_id, departure_station_name, return_station_id, return_station_name, distance_m, duration_sec) FROM '/bikedata.csv' DELIMITER ',' CSV HEADER;
 
-select * from trips limit 10;
+select * from hsl_schema.trips limit 10;
+
+\dt;
