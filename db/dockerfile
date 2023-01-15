@@ -1,0 +1,9 @@
+FROM postgres:14.1-alpine
+
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+
+EXPOSE 5432
+
+COPY initdb.sql /docker-entrypoint-initdb.d/
+COPY bikedata.csv /

@@ -44,6 +44,4 @@ df.columns = ['departure', 'return', 'departure_station_id', 'departure_station_
 print('Combined: ', df.shape[0])
 
 # Save the combined dataframe to a csv file
-df.to_csv('combined.csv', index=False)
-
-
+df.to_csv('../db/bikedata.csv.csv', index=False)
