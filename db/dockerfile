@@ -7,3 +7,4 @@ EXPOSE 5432
 
 COPY initdb.sql /docker-entrypoint-initdb.d/
 COPY bikedata.csv /
+COPY stations.csv /
