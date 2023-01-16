@@ -35,13 +35,26 @@
 ### Pre-requisites
 
 - Docker
-- Docker-compose
+- GoLang
+- npm
 
 ### Running the app
 
+- Clone the repo and cd into the root directory
+
+#### Downloading the data
+
+Download following files:
+
+- https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv
+- https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv
+- https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv
+
+and place them in the `data` directory of the project. After that run the python script `data/parse_data.py` to parse the data into a format that the backend can use.
+
+
 #### Starting the database
 
-- Clone the repo and cd into the root directory
 - run command `cd db`
 - run command `docker build -t hsl-bikeapp-db .`
 - run command `docker run -d -p 5432:5432 hsl-bikeapp-db`
@@ -64,3 +77,5 @@ Escape character is '^]'.
 #### Starting the frontend
 
 - to be continued...
+
+
