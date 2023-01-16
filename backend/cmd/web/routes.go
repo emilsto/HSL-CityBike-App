@@ -15,7 +15,9 @@ func routes(app *config.AppConfig) http.Handler {
 	// recover from panics
 	mux.Use(middleware.Recoverer)
 
+	// set up the routes
 	mux.Get("/", handlers.Repo.Home)
+	mux.Get("/stations/{id}", handlers.Repo.Station)
 
 	return mux
 }

@@ -27,6 +27,4 @@ type TripData struct {
 	RetStationName string
 	DistanceMeters float64
 	DurationSec    int
-	DepStation     Station
-	RetStation     Station
 }
