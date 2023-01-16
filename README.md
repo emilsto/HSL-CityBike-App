@@ -32,7 +32,11 @@
 
 ## How to run
 
-### Pre-requisites
+- Note: This project is still in development, so some things might not work as intended, and the instructions below might not be complete.
+
+### Pre-requisites:
+
+To run this project you need to have the following installed:
 
 - Docker
 - GoLang
