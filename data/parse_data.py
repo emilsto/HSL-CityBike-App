@@ -51,6 +51,9 @@ print(locations.columns)
 # Rename the columns of the locations dataframe
 locations.columns = ['name_fi', 'name-se', 'name', 'address', 'address_se', 'city', 'capacity', 'latitude', 'longitude']
 
+# If city == " " then city = "Helsinki"
+locations['city'] = locations['city'].replace(' ', 'Helsinki')
+
 # Print 10 random rows of the locations dataframe
 print(locations.sample(10))
 
