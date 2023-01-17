@@ -7,13 +7,26 @@ import (
 	"github.com/emilsto/HSL-CityBike-App/pkg/handlers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 )
 
 func routes(app *config.AppConfig) http.Handler {
+	// create a new mux router
 	mux := chi.NewRouter()
 
 	// recover from panics
 	mux.Use(middleware.Recoverer)
+
+	// set up CORS
+	cors := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	})
+	mux.Use(cors.Handler)
 
 	// set up the routes under /api
 	mux.Route("/api/v1", func(mux chi.Router) {
