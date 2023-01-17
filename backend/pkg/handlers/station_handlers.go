@@ -1,0 +1,110 @@
+package handlers
+
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+
+	"github.com/go-chi/chi/v5"
+
+	//postgres driver
+	_ "github.com/jackc/pgconn"
+	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
+)
+
+// Get station by id
+func (m *Repository) Station(w http.ResponseWriter, r *http.Request) {
+	stationId := chi.URLParam(r, "id")
+	if stationId == "" {
+		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		return
+	}
+	station, err := m.DB.FindStationByID(stationId)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error retrieving station", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(station); err != nil {
+		log.Println(err)
+		http.Error(w, "Error encoding station", http.StatusInternalServerError)
+		return
+	}
+	//close response body after writing to it
+	defer r.Body.Close()
+}
+
+// Get station by obj id
+func (m *Repository) StationByObjID(w http.ResponseWriter, r *http.Request) {
+	stationId := chi.URLParam(r, "id")
+	if stationId == "" {
+		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		return
+	}
+	station, err := m.DB.FindStationByObjID(stationId)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error retrieving station", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(station); err != nil {
+		log.Println(err)
+		http.Error(w, "Error encoding station", http.StatusInternalServerError)
+		return
+	}
+	//close response body after writing to it
+	defer r.Body.Close()
+}
+
+// Get all stations
+func (m *Repository) AllStations(w http.ResponseWriter, r *http.Request) {
+	stations, err := m.DB.FindAllStations()
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error retrieving stations", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(stations); err != nil {
+		log.Println(err)
+		http.Error(w, "Error encoding stations", http.StatusInternalServerError)
+		return
+	}
+	//close response body after writing to it
+	defer r.Body.Close()
+}
+
+// Get staion by page and offset (limit) for pagination
+func (m *Repository) FindStationByPage(w http.ResponseWriter, r *http.Request) {
+	page := r.URL.Query().Get("page") //using r.URL.Query().Get() instead of chi.URLParam() because of the ?page=1&offset=10 => chi router doesn't work with query params
+	offset := r.URL.Query().Get("limit")
+	if page == "" || offset == "" {
+		http.Error(w, "Missing page or offset parameter", http.StatusBadRequest)
+		println("Page" + page + "offset" + offset)
+		return
+	}
+	stations, err := m.DB.StationsByPage(page, offset)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error retrieving stations", http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(stations); err != nil {
+		log.Println(err)
+		http.Error(w, "Error encoding stations", http.StatusInternalServerError)
+		return
+	}
+	//close response body after writing to it
+	defer r.Body.Close()
+}
