@@ -6,4 +6,6 @@ type DatabaseRepo interface {
 	AllStations() bool
 	StationCount() (int, error)
 	FindStationByID(stationID string) (models.Station, error)
+	FindStationByObjID(stationObjID string) (models.Station, error)
+	FindAllStations() ([]models.Station, error)
 }

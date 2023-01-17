@@ -1,5 +1,7 @@
 package dbrepo
 
+// Repository used by handlers
+
 import (
 	"database/sql"
 

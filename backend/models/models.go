@@ -1,10 +1,13 @@
 package models
 
+// Models for the database
+
 import "time"
 
 // Station for the stations table
 type Station struct {
 	ID         int
+	Obj_id     string //ob represents the station's unique ID in the HSL API
 	Name       string
 	Name_fi    string
 	Name_se    string
