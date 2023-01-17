@@ -1,4 +1,5 @@
-a:link, a:visited {
+a:link,
+a:visited {
   color: inherit; /* sets the color of both link and visited links to blue */
   text-decoration: none; /* removes the underline */
 }
@@ -19,7 +20,7 @@ a:link, a:visited {
 }
 
 .App-header {
-  background-color: #007AC9;
+  background-color: #007ac9;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -42,24 +43,24 @@ a:link, a:visited {
 
 .journey-button {
   margin-left: 1rem;
-  background-color: #7A4090;
+  background-color: #7a4090;
   padding: 1rem;
   cursor: pointer;
   border-radius: 10px;
-  box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7);
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
 }
-
 
 .station-button {
   margin-right: 1rem;
   padding: 1rem;
-  background-color: #3F9560;
+  background-color: #3f9560;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7);
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
 }
 
-.station-button:hover, .journey-button:hover {
+.station-button:hover,
+.journey-button:hover {
   animation: station-button 0.3s;
   animation-fill-mode: forwards;
 }
@@ -72,7 +73,6 @@ a:link, a:visited {
     transform: scale(1.05);
   }
 }
-
 
 @keyframes App-logo-spin {
   from {
