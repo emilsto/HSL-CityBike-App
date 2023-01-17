@@ -27,7 +27,7 @@ func (m *postgresDBRepo) FindStationByID(stationID string) (models.Station, erro
 	// Query the database
 	query := `SELECT * FROM hsl_schema.stations WHERE id = $1`
 	var station models.Station
-	err := m.DB.QueryRow(query, stationID).Scan(&station.ID, &station.Obj_id, &station.Name_fi, &station.Name_se, &station.Name, &station.Address, &station.Address_se, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
+	err := m.DB.QueryRow(query, stationID).Scan(&station.ID, &station.ObjId, &station.NameFi, &station.NameSe, &station.Name, &station.Address, &station.AddressSe, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
 	if err != nil {
 		return models.Station{}, err
 	}
@@ -39,7 +39,7 @@ func (m *postgresDBRepo) FindStationByObjID(stationObjID string) (models.Station
 	// Query the database
 	query := `SELECT * FROM hsl_schema.stations WHERE obj_id = $1`
 	var station models.Station
-	err := m.DB.QueryRow(query, stationObjID).Scan(&station.ID, &station.Obj_id, &station.Name_fi, &station.Name_se, &station.Name, &station.Address, &station.Address_se, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
+	err := m.DB.QueryRow(query, stationObjID).Scan(&station.ID, &station.ObjId, &station.NameFi, &station.NameSe, &station.Name, &station.Address, &station.AddressSe, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
 	if err != nil {
 		return models.Station{}, err
 	}
@@ -60,7 +60,7 @@ func (m *postgresDBRepo) FindAllStations() ([]models.Station, error) {
 	// Loop through the rows and append them to the slice
 	for rows.Next() {
 		var station models.Station
-		err := rows.Scan(&station.ID, &station.Obj_id, &station.Name_fi, &station.Name_se, &station.Name, &station.Address, &station.Address_se, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
+		err := rows.Scan(&station.ID, &station.ObjId, &station.NameFi, &station.NameSe, &station.Name, &station.Address, &station.AddressSe, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
 		if err != nil {
 			return nil, err
 		}
@@ -83,7 +83,7 @@ func (m *postgresDBRepo) StationsByPage(offset string, limit string) ([]models.S
 	// Loop through the rows and append them to the slice
 	for rows.Next() {
 		var station models.Station
-		err := rows.Scan(&station.ID, &station.Obj_id, &station.Name_fi, &station.Name_se, &station.Name, &station.Address, &station.Address_se, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
+		err := rows.Scan(&station.ID, &station.ObjId, &station.NameFi, &station.NameSe, &station.Name, &station.Address, &station.AddressSe, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
 		if err != nil {
 			return nil, err
 		}

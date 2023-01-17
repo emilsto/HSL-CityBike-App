@@ -6,17 +6,18 @@ import "time"
 
 // Station for the stations table
 type Station struct {
-	ID         int
-	Obj_id     string //ob represents the station's unique ID in the HSL API
-	Name       string
-	Name_fi    string
-	Name_se    string
-	Address    string
-	Address_se string
-	City       string
-	Capacity   int
-	Latitude   float64
-	Longitude  float64
+    ID int `json:"id"`
+    ObjId string `json:"objId"`
+    NameFi string `json:"nameFi"`
+    NameSe string `json:"nameSe"`
+    Name string `json:"name"`
+    Address string `json:"address"`
+    AddressFi string `json:"addressFi"`
+    AddressSe string `json:"addressSe"`
+    City string `json:"city"`
+    Capacity int `json:"capacity"`
+    Latitude float64 `json:"latitude"`
+    Longitude float64 `json:"longitude"`
 }
 
 // TripData for the trips table
