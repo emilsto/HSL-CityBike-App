@@ -68,3 +68,26 @@ func (m *postgresDBRepo) FindAllStations() ([]models.Station, error) {
 	}
 	return stations, nil
 }
+
+// Find stations by page (offset and limit), return a slice of station structs, with Obj_id, Name_fi, Name_se, Name, Address, Address_se, City, Capacity, Latitude, Longitude
+func (m *postgresDBRepo) StationsByPage(offset string, limit string) ([]models.Station, error) {
+	// Query the database
+	query := `SELECT * FROM hsl_schema.stations OFFSET $1 LIMIT $2`
+	var stations []models.Station
+	rows, err := m.DB.Query(query, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Loop through the rows and append them to the slice
+	for rows.Next() {
+		var station models.Station
+		err := rows.Scan(&station.ID, &station.Obj_id, &station.Name_fi, &station.Name_se, &station.Name, &station.Address, &station.Address_se, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
+		if err != nil {
+			return nil, err
+		}
+		stations = append(stations, station)
+	}
+	return stations, nil
+}
