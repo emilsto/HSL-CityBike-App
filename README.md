@@ -14,7 +14,7 @@
 
 - React
 - TypeScript
-- TailwindCSS
+- TailwindCSS (maybe)
 
 
 <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
@@ -80,6 +80,10 @@ Escape character is '^]'.
 
 #### Starting the frontend
 
-- to be continued...
+- run command `cd frontend`
+- run command `npm install`
+- run command `npm start`
+- the app should now be running on port 3000
+
 
 
