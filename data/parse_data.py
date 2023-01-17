@@ -40,16 +40,16 @@ df = pd.concat([may_2021, june_2021, july_2021])
 df.columns = ['departure', 'return', 'departure_station_id', 'departure_station_name', 'return_station_id', 'return_station_name', 'distance_m', 'duration_sec']
 
 # Delete first 2 columns of the locations dataframe
-locations = locations.drop(locations.columns[[0, 1]], axis=1)
+locations = locations.drop(locations.columns[[0, 0]], axis=1)
 
 # Delete colums "Stad" and "Operaattor", they are not needed
-locations = locations.drop(locations.columns[[6, 7]], axis=1)
+locations = locations.drop(locations.columns[[7, 8]], axis=1)
 
 #print column names
 print(locations.columns)
 
 # Rename the columns of the locations dataframe
-locations.columns = ['name_fi', 'name-se', 'name', 'address', 'address_se', 'city', 'capacity', 'latitude', 'longitude']
+locations.columns = ['obj_id', 'name_fi', 'name-se', 'name', 'address', 'address_se', 'city', 'capacity', 'latitude', 'longitude']
 
 # If city == " " then city = "Helsinki"
 locations['city'] = locations['city'].replace(' ', 'Helsinki')
