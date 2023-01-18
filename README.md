@@ -1,5 +1,18 @@
 # HSL-CityBike-App
 
+## Table of contents
+
+- [General info](#general-info)
+- [Project status](#project-status)
+- [Technologies used](#technologies-used)
+- [How to run](#how-to-run)
+- [Techical documentation](#technical-documentation)
+
+## General info
+
+- A web application for visualizing the usage of HSL's city bikes in Helsinki.
+
+
 ## What is this?
 
 - This is my solution for the Solita Dev Academy pre-assignment. https://github.com/solita/dev-academy-2023-exercise
@@ -85,5 +98,15 @@ Escape character is '^]'.
 - run command `npm start`
 - the app should now be running on port 3000
 
+## Technical documentation
 
+### General info
+
+- The backend of the application is built using the Go programming language. It utilizes the Chi router for handling HTTP requests and the pq library for connecting to the PostgreSQL database. The database is running in a Docker container and it's populated with data from various CSV files through a python script. The script combines and cleans the data from the source files before inserting it into the database.
+
+- The frontend of the application is built using React and TypeScript. It communicates with the backend to fetch and display the data from the PostgreSQL database. The user interface is built using React components, and the application is organized using a component-based architecture. TypeScript is used to provide type safety and better developer experience while writing the frontend code.
+
+### Backend
+
+#### Database
 
