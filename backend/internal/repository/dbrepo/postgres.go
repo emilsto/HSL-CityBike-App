@@ -72,7 +72,7 @@ func (m *postgresDBRepo) FindAllStations() ([]models.Station, error) {
 // Find stations by page (offset and limit), return a slice of station structs, with Obj_id, Name_fi, Name_se, Name, Address, Address_se, City, Capacity, Latitude, Longitude
 func (m *postgresDBRepo) StationsByPage(offset string, limit string) ([]models.Station, error) {
 	// Query the database
-	query := `SELECT * FROM hsl_schema.stations OFFSET $1 LIMIT $2`
+	query := `SELECT * FROM hsl_schema.stations ORDER BY Name OFFSET $1 LIMIT $2`
 	var stations []models.Station
 	rows, err := m.DB.Query(query, offset, limit)
 	if err != nil {
