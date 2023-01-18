@@ -8,17 +8,19 @@ interface Props {
 
 const StationCard = (props: Props) => {
   const handleClick = () => {
-    console.log("clicked");
+    //TODO: redirect to station page
+
   };
 
   return (
-    <div className="station">
-      <div className="station-name">{props.station.name}</div>
-      <div className="station-address">
-        {props.station.address}, {props.station.city} <br />
-        {props.station.addressSe}, {props.station.city}
-      </div>
-    </div>
+    <tr className="station" onClick={handleClick}>
+      <td className="">{props.station.nameFi}</td>
+      <td className="">
+        {props.station.address}
+      </td>
+      <td>{props.station.city}</td>
+      <td>{props.station.capacity}</td>
+    </tr>
   );
 };
 

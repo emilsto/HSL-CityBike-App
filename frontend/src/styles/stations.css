@@ -10,45 +10,63 @@
   color: white;
 }
 
-.station-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1rem;
-  width: 50%;
-  padding: 0 1rem;
+.table-wrapper { 
+  width: 70%;
+  box-shadow: 0px 35px 35px rgba(0,0,0,0.75);
 }
 
-.Station-page-buttons {
-    padding-top: 2rem;;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+
+.station-table {
+  padding: 2 rem;
+  text-align: center;
+  background-color: white;
+  color: black;
+  border-collapse: collapse;
 }
 
-.next-button {
-    margin-left: 1rem;
-    background-color: #7a4090;
-    padding: 1rem;
-    cursor: pointer;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
-  }
-  
-  .prev-button {
-    margin-right: 1rem;
-    padding: 1rem;
-    background-color: #7a4090;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
-  }
+.station-table th {
+  padding: 1rem;
+}
 
-    .next-button:hover,
-    .prev-button:hover {
-      animation: zoom-button 0.3s;
-      animation-fill-mode: forwards;
-    }
+table{
+  width: 100%;
+  table-layout: fixed;
+  border-radius: 10px;
+}
+
+td {
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+  font-size: calc(1px + 2vmin);
+}
+
+th {
+  background-color: #3f9560;
+  color: white;
+}
+
+tr:hover {
+  background-color: #3f9560;
+  color: white;
+}
+
+.page-select {
+  text-align: inherit;
+  background-color: #3f9560;
+  color: white;
+  width: 100%;
+  font-size: calc(10px + 2vmin);
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+  border: none;
+  appearance: none;
+}
+
+
+
+
+
 
 @keyframes zoom-button {
   from {
