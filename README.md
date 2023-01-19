@@ -67,7 +67,7 @@ Download following files:
 - https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv
 - https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv
 
-and place them in the `data` directory of the project. After that run the python script `data/parse_data.py` to parse the data into a format that the backend can use.
+and place them in the `data` directory of the project. After that run the python script `parse_data.py` from data directory to parse the data into a format that the backend can use. 
 
 
 #### Starting the database

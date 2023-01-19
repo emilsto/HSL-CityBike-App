@@ -25,8 +25,6 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println("Successfully connected to database!")
-
-	//close the connection when the function exits
 	defer db.SQL.Close()
 
 	// create a new repo, and set it as the global repo

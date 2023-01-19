@@ -91,3 +91,26 @@ func (m *postgresDBRepo) StationsByPage(offset string, limit string) ([]models.S
 	}
 	return stations, nil
 }
+
+// Find trips by page (offset and limit), return a slice of trip structs
+func (m *postgresDBRepo) TripsByPage(offset string, limit string) ([]models.TripData, error) {
+	// Query the database
+	query := `SELECT * FROM hsl_schema.trips ORDER BY Departure OFFSET $1 LIMIT $2`
+	var trips []models.TripData
+	rows, err := m.DB.Query(query, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Loop through the rows and append them to the slice
+	for rows.Next() {
+		var trip models.TripData
+		err := rows.Scan(&trip.ID, &trip.DepartureTime, &trip.ReturnTime, &trip.DepStationId, &trip.DepStationName, &trip.RetStationId, &trip.RetStationName, &trip.DistanceMeters, &trip.DurationSec)
+		if err != nil {
+			return nil, err
+		}
+		trips = append(trips, trip)
+	}
+	return trips, nil
+}
