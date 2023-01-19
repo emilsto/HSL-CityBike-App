@@ -1,6 +1,10 @@
 package dbrepo
 
-import "github.com/emilsto/HSL-CityBike-App/models"
+import (
+	"log"
+
+	"github.com/emilsto/HSL-CityBike-App/models"
+)
 
 // Why is this seperate from the repository.go file? -> If I want to make the db work with say MySQL, I can just make a new file and implement the same interface
 
@@ -50,6 +54,8 @@ func (m *postgresDBRepo) FindStationByObjID(stationObjID string) (models.Station
 func (m *postgresDBRepo) FindAllStations() ([]models.Station, error) {
 	// Query the database
 	query := `SELECT * FROM hsl_schema.stations`
+	log.Println(query)
+
 	var stations []models.Station
 	rows, err := m.DB.Query(query)
 	if err != nil {
@@ -70,11 +76,24 @@ func (m *postgresDBRepo) FindAllStations() ([]models.Station, error) {
 }
 
 // Find stations by page (offset and limit), return a slice of station structs, with Obj_id, Name_fi, Name_se, Name, Address, Address_se, City, Capacity, Latitude, Longitude
-func (m *postgresDBRepo) StationsByPage(offset string, limit string) ([]models.Station, error) {
+func (m *postgresDBRepo) StationsByPage(q string, offset string, limit string) ([]models.Station, error) {
 	// Query the database
-	query := `SELECT * FROM hsl_schema.stations ORDER BY Name OFFSET $1 LIMIT $2`
+	query := `SELECT * FROM hsl_schema.stations `
+	// create a slice of arguments to pass to the query
+	var args []interface{}
+	if q != "" {
+		q = "%" + q + "%"
+		query += `WHERE city ILIKE $1 OR name_fi ILIKE $1 OR address ILIKE $1 `
+		args = append(args, q)
+		query += `ORDER BY name OFFSET $2 LIMIT $3`
+	} else {
+		query += `ORDER BY name OFFSET $1 LIMIT $2`
+	}
+	// append the offset and limit to the args slice, as they are always passed
+	args = append(args, offset, limit)
+
 	var stations []models.Station
-	rows, err := m.DB.Query(query, offset, limit)
+	rows, err := m.DB.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}

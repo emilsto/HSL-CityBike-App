@@ -83,16 +83,18 @@ func (m *Repository) AllStations(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 }
 
-// Get staion by page and offset (limit) for pagination
+// Get station by page and offset (limit) for pagination
 func (m *Repository) FindStationByPage(w http.ResponseWriter, r *http.Request) {
 	page := r.URL.Query().Get("page") //using r.URL.Query().Get() instead of chi.URLParam() because of the ?page=1&offset=10 => chi router doesn't work with query params
 	offset := r.URL.Query().Get("limit")
+	q := r.URL.Query().Get("q")
 	if page == "" || offset == "" {
+		//allow empty search term, but not page or offset
 		http.Error(w, "Missing page or offset parameter", http.StatusBadRequest)
 		println("Page" + page + "offset" + offset)
 		return
 	}
-	stations, err := m.DB.StationsByPage(page, offset)
+	stations, err := m.DB.StationsByPage(q, page, offset)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "Error retrieving stations", http.StatusInternalServerError)

@@ -8,6 +8,6 @@ type DatabaseRepo interface {
 	FindStationByID(stationID string) (models.Station, error)
 	FindStationByObjID(stationObjID string) (models.Station, error)
 	FindAllStations() ([]models.Station, error)
-	StationsByPage(offset string, limit string) ([]models.Station, error)
+	StationsByPage(q string, offset string, limit string) ([]models.Station, error)
 	TripsByPage(offset string, limit string) ([]models.TripData, error)
 }
