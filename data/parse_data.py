@@ -27,6 +27,11 @@ may_2021 = may_2021[may_2021['Covered distance (m)'] > 10]
 june_2021 = june_2021[june_2021['Covered distance (m)'] > 10]
 july_2021 = july_2021[july_2021['Covered distance (m)'] > 10]
 
+#Remove duplicate rows
+may_2021 = may_2021.drop_duplicates()
+june_2021 = june_2021.drop_duplicates()
+july_2021 = july_2021.drop_duplicates()
+
 # Print the number of rows in each dataframe
 
 print('May 2021: ', may_2021.shape[0])
@@ -44,9 +49,6 @@ locations = locations.drop(locations.columns[[0, 0]], axis=1)
 
 # Delete colums "Stad" and "Operaattor", they are not needed
 locations = locations.drop(locations.columns[[7, 8]], axis=1)
-
-#print column names
-print(locations.columns)
 
 # Rename the columns of the locations dataframe
 locations.columns = ['obj_id', 'name_fi', 'name-se', 'name', 'address', 'address_se', 'city', 'capacity', 'latitude', 'longitude']
