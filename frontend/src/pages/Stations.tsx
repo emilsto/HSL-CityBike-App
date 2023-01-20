@@ -1,3 +1,5 @@
+import "../styles/stations.css";
+
 import { useState, useEffect } from "react";
 import api from "../api/axios";
 import StationCard from "../components/StationCard";
@@ -5,7 +7,6 @@ import StationCard from "../components/StationCard";
 //interface
 import Station from "../interfaces/station_interface";
 
-import "../styles/stations.css";
 
 const STAION_URL = "http://localhost:5000/api/v1/stations_page";
 const PAGE_SIZE = 16;

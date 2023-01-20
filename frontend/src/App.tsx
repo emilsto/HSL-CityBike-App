@@ -1,5 +1,6 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
+
+//pages
 import Home from "./pages/Home";
 import Stations from "./pages/Stations";
 import SingleStation from "./pages/SingleStation";
