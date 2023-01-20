@@ -111,12 +111,25 @@ func (m *postgresDBRepo) StationsByPage(q string, offset string, limit string) (
 	return stations, nil
 }
 
-// Find trips by page (offset and limit), return a slice of trip structs
-func (m *postgresDBRepo) TripsByPage(offset string, limit string) ([]models.TripData, error) {
+// Find trips by page (offset and limit), return a slice of trip structs with optional query string
+func (m *postgresDBRepo) TripsByPage(q string, offset string, limit string) ([]models.TripData, error) {
 	// Query the database
-	query := `SELECT * FROM hsl_schema.trips ORDER BY Departure OFFSET $1 LIMIT $2`
+	query := `SELECT * FROM hsl_schema.trips `
+	// create a slice of arguments to pass to the query
+	var args []interface{}
+	if q != "" {
+		q = "%" + q + "%"
+		query += `WHERE departure_station_name ILIKE $1 OR return_station_name ILIKE $1 `
+		args = append(args, q)
+		query += `ORDER BY departure OFFSET $2 LIMIT $3`
+	} else {
+		query += `ORDER BY departure OFFSET $1 LIMIT $2`
+	}
+	// append the offset and limit to the args slice, as they are always passed
+	args = append(args, offset, limit)
+
 	var trips []models.TripData
-	rows, err := m.DB.Query(query, offset, limit)
+	rows, err := m.DB.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}
