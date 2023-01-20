@@ -1,7 +1,6 @@
 //Render individual station
 import Station from "../interfaces/station_interface";
-import "./component_styles/stationcard.css";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   station: Station;
