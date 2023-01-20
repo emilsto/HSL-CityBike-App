@@ -1,8 +1,4 @@
 
-.station:hover {
-  animation: zoom-button 0.3s;
-  animation-fill-mode: forwards;
-}
 
 .station-name {
   font-weight: bold;
@@ -17,15 +13,4 @@
   padding: 1rem;
   font-size: calc(5x + 1vmin);
 
-}
-
-
-
-@keyframes zoom-button {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.05);
-  }
 }
