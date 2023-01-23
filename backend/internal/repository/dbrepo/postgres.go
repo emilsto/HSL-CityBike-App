@@ -146,3 +146,32 @@ func (m *postgresDBRepo) TripsByPage(q string, offset string, limit string) ([]m
 	}
 	return trips, nil
 }
+
+// Get station statistics, return a slice of station statistics structs
+func (m *postgresDBRepo) GetStationStatistics(id string) ([]models.StationStatistics, error) {
+	// Query the database
+	query := `SELECT
+	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE departure_station_id = $1) AS avg_distance_departures,
+	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE return_station_id = $1) AS avg_distance_returns,
+	(SELECT COUNT(*) FROM hsl_schema.trips WHERE departure_station_id = $1) as departures_count,
+	(SELECT COUNT(*) FROM hsl_schema.trips WHERE return_station_id = $1) as returns_count
+	`
+	var stationStatistics []models.StationStatistics
+	rows, err := m.DB.Query(query, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Loop through the rows and append them to the slice
+	for rows.Next() {
+		var stationStatistic models.StationStatistics
+		err := rows.Scan(&stationStatistic.AvgDistanceDeparturesM, &stationStatistic.AvgDistanceReturnsM, &stationStatistic.DeparturesCount, &stationStatistic.ReturnsCount)
+		if err != nil {
+			return nil, err
+		}
+		stationStatistics = append(stationStatistics, stationStatistic)
+	}
+
+	return stationStatistics, nil
+}

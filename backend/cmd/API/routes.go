@@ -31,11 +31,12 @@ func routes(app *config.AppConfig) http.Handler {
 	// set up the routes under /api
 	mux.Route("/api/v1", func(mux chi.Router) {
 		mux.Get("/", handlers.Repo.Home)
-		mux.Get("/stations", handlers.Repo.AllStations)               // get all stations
-		mux.Get("/stations_page", handlers.Repo.FindStationByPage)    // get stations by page and offset
-		mux.Get("/stations/{id}", handlers.Repo.Station)              // get station by id
-		mux.Get("/stations_objid/{id}", handlers.Repo.StationByObjID) // get station by obj_id (id in the HSL database)
-		mux.Get("/trips", handlers.Repo.FindTripsByPage)              // get trips by page and offset
+		mux.Get("/stations", handlers.Repo.AllStations)                // get all stations
+		mux.Get("/stations_page", handlers.Repo.FindStationByPage)     // get stations by page and offset
+		mux.Get("/stations/{id}", handlers.Repo.Station)               // get station by id
+		mux.Get("/stations_objid/{id}", handlers.Repo.StationByObjID)  // get station by obj_id (id in the HSL database)
+		mux.Get("/stationsStats/{id}", handlers.Repo.StationTripStats) // get stations stats")
+		mux.Get("/trips", handlers.Repo.FindTripsByPage)               // get trips by page and offset
 	})
 
 	return mux

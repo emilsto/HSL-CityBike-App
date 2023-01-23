@@ -32,3 +32,21 @@ type TripData struct {
 	DistanceMeters float64   `json:"distanceMeters"`
 	DurationSec    int       `json:"durationSec"`
 }
+
+// Models for the API
+
+// Stationstatistics for returning statistics about a station and its trips
+type StationStatistics struct {
+	AvgDistanceDeparturesM float64 `json:"AvgDistanceDeparturesM"`
+	AvgDistanceReturnsM    float64 `json:"AvgDistanceReturnsM"`
+	DeparturesCount        int     `json:"DeparturesCount"`
+	ReturnsCount           int     `json:"ReturnsCount"`
+	TopFiveDepartures      []struct {
+		DepStationName string `json:"depStationName"`
+		Count          int    `json:"count"`
+	} `json:"TopFiveDepartures"`
+	TopFiveReturns []struct {
+		RetStationName string `json:"retStationName"`
+		Count          int    `json:"count"`
+	} `json:"TopFiveReturns"`
+}

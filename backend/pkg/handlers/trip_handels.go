@@ -9,7 +9,9 @@ import (
 	_ "github.com/jackc/pgconn"
 	_ "github.com/jackc/pgx/v4"
 	_ "github.com/jackc/pgx/v4/stdlib"
+
 	//chi router
+	"github.com/go-chi/chi/v5"
 )
 
 // Get trips by page and offset (limit) for pagination
@@ -31,6 +33,32 @@ func (m *Repository) FindTripsByPage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(trips); err != nil {
+		log.Println(err)
+		http.Error(w, "Error encoding trips", http.StatusInternalServerError)
+		return
+	}
+	//close response body after writing to it
+	defer r.Body.Close()
+
+}
+
+// Get trips statistics for a given station
+func (m *Repository) StationTripStats(w http.ResponseWriter, r *http.Request) {
+	stationId := chi.URLParam(r, "id")
+	if stationId == "" {
+		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		return
+	}
+	stats, err := m.DB.GetStationStatistics(stationId)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error retrieving trips", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(stats); err != nil {
 		log.Println(err)
 		http.Error(w, "Error encoding trips", http.StatusInternalServerError)
 		return
