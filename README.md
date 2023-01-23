@@ -70,6 +70,9 @@
 - GoLang
 - PostgreSQL
 - Docker
+- Python with pandas (for parsing the data)
+    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
+
 
 <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white"> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
 
@@ -144,7 +147,7 @@ The technical documentation section provides an overview of the application's ar
 
 ### Project structure
 
-The project is organized into three main directories:
+The project is organized into four main directories:
 - `backend` - contains the backend code
 - `frontend` - contains the frontend code
 - `data` - contains the data files and the python script for parsing the data
@@ -303,9 +306,7 @@ Returns a single station with the specified id. Here is an example JSON response
 
 - GET /api/v1/stations_page?searchTerm=&limit=20&page=1
 
-Returns a list, with a maximum length of user specified limit, of stations that match the search term.go
-    │   ├── trips.go
-    │   └── utils.go
+Returns a json array, with a maximum length of user specified limit, of stations that match the search term. Pagination is implemented with the "page" query, which specifies the page number (aka offset in SQL).
 
 ```
 [
@@ -344,7 +345,7 @@ Returns a list, with a maximum length of user specified limit, of stations that 
 
 - /api/v1/trips?q=&limit=20&page=0
 
-Returns a list, with a maximum length of user specified limit, of trips that match the search term. The list is paginated, and the user can specify which page to return. Page = offset parameter in the SQL query. SearchTerm is optional, and if it's not specified, all trips are returned (according to page limit). If the searchTerm is specified, the query will search for the term in the name of the station or address of the station. The query is case insensitive and queries both return and departure stations.
+Returns a json array, with a maximum length of user specified limit, of trips that match the search term. The array is paginated, and the user can specify which page to return. Page = offset parameter in the SQL query. q (search query) is optional, and if it's not specified, all trips are returned (according to limit and page). If the q is specified, the query will search for the term in the name of the station or address of the station. The query is case insensitive and queries both return and departure stations.
 
 Here is an example JSON response:
 
