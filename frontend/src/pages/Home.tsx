@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>HSL Citybike app</h1>
+        <h1 className="text-6xl p-8">HSL Citybike app</h1>
         <section className="view-select">
           <Link to="/stations">
             <div className="station-button">Station List</div>

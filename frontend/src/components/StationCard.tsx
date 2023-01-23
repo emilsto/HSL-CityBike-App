@@ -15,13 +15,11 @@ const StationCard = (props: Props) => {
   };
 
   return (
-    <tr className="station" onClick={handleClick}>
-      <td className="">{props.station.nameFi}</td>
-      <td className="">
-        {props.station.address}
-      </td>
-      <td>{props.station.city}</td>
-      <td>{props.station.capacity}</td>
+    <tr className="text-lg text-white cursor-pointer border-b hover:opacity-60" onClick={handleClick}>
+      <td className="px-6 py-4">{props.station.nameFi}</td>
+      <td className="px-6 py-4">{props.station.address}</td>
+      <td className="px-6 py-4">{props.station.city}</td>
+      <td className="px-6 py-4">{props.station.capacity}</td>
     </tr>
   );
 };
