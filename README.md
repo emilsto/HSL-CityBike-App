@@ -7,8 +7,10 @@
 - [Technologies used](#technologies-used)
 - [How to run](#how-to-run)
 - [Techical documentation](#technical-documentation)
-   - [Database overview](#database)
-   - [API documentation](#api-documentation)
+    - [General info](#general-info-1)
+    - [Project structure](#project-structure)
+    - [Database overview](#database)
+    - [API documentation](#api-documentation)
 
 
 ## General info
@@ -138,6 +140,96 @@ The technical documentation section provides an overview of the application's ar
 
 - The frontend of the application is built using React and TypeScript. It communicates with the backend to fetch and display the data from the PostgreSQL database. The user interface is built using React components, and the application is organized using a component-based architecture. TypeScript is used to provide type safety and better developer experience while writing the frontend code.
 
+
+
+### Project structure
+
+The project is organized into three main directories:
+- `backend` - contains the backend code
+- `frontend` - contains the frontend code
+- `data` - contains the data files and the python script for parsing the data
+- `db` - contains the PostgreSQL Dockerfile and the init.sql file
+
+Here is a simplified view of the project structure:
+
+```
+📦 
+├─ .gitignore
+├─ README.md
+├─ backend
+│  ├─ cmd
+│  │  └─ API
+│  │     ├─ main.go
+│  │     └─ routes.go
+│  ├─ go.mod
+│  ├─ go.sum
+│  ├─ internal
+│  │  ├─ driver
+│  │  │  └─ driver.go
+│  │  └─ repository
+│  │     ├─ dbrepo
+│  │     │  ├─ dbrepo.go
+│  │     │  └─ postgres.go
+│  │     └─ repository.go
+│  ├─ models
+│  │  └─ models.go
+│  └─ pkg
+│     ├─ config
+│     │  └─ config.go
+│     └─ handlers
+│        ├─ handlers.go
+│        ├─ station_handlers.go
+│        └─ trip_handels.go
+├─ data
+│  ├─ analyzedata.py
+│  └─ parse_data.py
+├─ db
+│  ├─ dockerfile
+│  └─ initdb.sql
+└─ frontend
+   ├─ src
+   │  ├─ App.css
+   │  ├─ App.tsx
+   │  ├─ api
+   │  │  └─ axios.tsx
+   │  ├─ components
+   │  │  ├─ StationCard.tsx
+   │  │  └─ TripCard.tsx
+   │  ├─ index.css
+   │  ├─ index.tsx
+   │  ├─ interfaces
+   │  │  ├─ station_interface.tsx
+   │  │  └─ trip_interface.tsx
+   │  ├─ pages
+   │  │  ├─ Home.tsx
+   │  │  ├─ Journeys.tsx
+   │  │  ├─ SingleStation.tsx
+   │  │  └─ Stations.tsx
+   │  ├─ react-app-env.d.ts
+   │  ├─ reportWebVitals.ts
+   │  ├─ setupTests.ts
+   │  └─ styles
+   │     ├─ journeys.css
+   │     └─ stations.css
+   └─ tsconfig.json
+```
+
+### Backend
+
+The backend API is split into five Go packages:
+
+- `main` - contains the main.go and routes.go files which are used to initialize the router and the database connection
+- `driver` - contains the repository and driver packages
+- `models` - contains the models used in the application (Station and Trip)
+- `handlers` - contains the config and handlers packages
+- `dbrepo` - contains the repository implementation for database access
+
+The backend of the application is designed using the repository pattern, which is used to abstract the data access layer from the rest of the application. This pattern provides a clean separation of concerns and makes it easy to change the data source in the future. The repository pattern is implemented by creating a repository interface and a repository implementation for each entity. The repository interface defines the methods used to fetch data from the database, and the repository implementation contains the actual SQL queries used to fetch the data.
+
+HTTP requests are handled by handlers, which are located in the pkg/handlers directory. The handlers are split into two files, one for stations and one for trips. These handlers call the appropriate repository methods to fetch data from the database. The router, defined in the routes.go file, is used to handle HTTP requests and call the appropriate handlers. It is initialized in the main.go file.
+
+The database connection is defined in the db.go file and is also initialized in the main.go file. This allows for easy management of the database connection throughout the application. 
+
 ## Database
 
 The posgtgressql database is running in a Docker container, and it's populated with data from the downloaded sources, that is combined and cleaned by a python script. When starting the container, the database is initialized via init.sql, which creates the tables and inserts the data into the database. The database is running on port 5432. The database contains tables for stations and trips.
@@ -186,7 +278,7 @@ The trips table contains information about the trips. It contains the following 
 Here is documentation for the endpoints that the backend provides. All endpoints return JSON data.
 
 
-## Stations
+### Stations
 
 - GET /api/v1/stations/:id
 
@@ -211,9 +303,9 @@ Returns a single station with the specified id. Here is an example JSON response
 
 - GET /api/v1/stations_page?searchTerm=&limit=20&page=1
 
-Returns a list, with a maximum length of user specified limit, of stations that match the search term. The list is paginated, and the user can specify which page to return. Page = offset parameter in the SQL query. SearchTerm is optional, and if it's not specified, all stations are returned. If the searchTerm is specified, the query will search for the term in the name of the station or address of the station. The query is case insensitive and queries both return and departure stations.
-
-Here is an example JSON response:
+Returns a list, with a maximum length of user specified limit, of stations that match the search term.go
+    │   ├── trips.go
+    │   └── utils.go
 
 ```
 [
@@ -248,7 +340,7 @@ Here is an example JSON response:
    ...
 ]
 ```
-## Trips
+### Trips
 
 - /api/v1/trips?q=&limit=20&page=0
 
