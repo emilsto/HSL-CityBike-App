@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 
 	//postgres driver
 	_ "github.com/jackc/pgconn"
@@ -46,13 +47,17 @@ func (m *Repository) FindTripsByPage(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) StationTripStats(w http.ResponseWriter, r *http.Request) {
 	stationId := chi.URLParam(r, "id")
 	if stationId == "" {
-		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		sendError(w, "Missing id parameter", http.StatusBadRequest)
 		return
 	}
 	stats, err := m.DB.GetStationStatistics(stationId)
 	if err != nil {
+		if strings.Contains(err.Error(), "has no trip data") {
+			sendError(w, err.Error(), http.StatusNotFound)
+			return
+		}
 		log.Println(err)
-		http.Error(w, "Error retrieving trips", http.StatusInternalServerError)
+		sendError(w, "Error retrieving trips", http.StatusInternalServerError)
 		return
 	}
 
@@ -60,10 +65,8 @@ func (m *Repository) StationTripStats(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(stats); err != nil {
 		log.Println(err)
-		http.Error(w, "Error encoding trips", http.StatusInternalServerError)
+		sendError(w, "Error encoding trips", http.StatusInternalServerError)
 		return
 	}
-	//close response body after writing to it
 	defer r.Body.Close()
-
 }

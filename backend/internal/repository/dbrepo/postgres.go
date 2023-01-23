@@ -1,6 +1,7 @@
 package dbrepo
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/emilsto/HSL-CityBike-App/models"
@@ -147,8 +148,7 @@ func (m *postgresDBRepo) TripsByPage(q string, offset string, limit string) ([]m
 	return trips, nil
 }
 
-// Get station statistics, return a slice of station statistics structs
-func (m *postgresDBRepo) GetStationStatistics(id string) ([]models.StationStatistics, error) {
+func (m *postgresDBRepo) GetStationStatistics(id string) (models.StationStatistics, error) {
 	// Query the database
 	query := `SELECT
 	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE departure_station_id = $1) AS avg_distance_departures,
@@ -156,21 +156,13 @@ func (m *postgresDBRepo) GetStationStatistics(id string) ([]models.StationStatis
 	(SELECT COUNT(*) FROM hsl_schema.trips WHERE departure_station_id = $1) as departures_count,
 	(SELECT COUNT(*) FROM hsl_schema.trips WHERE return_station_id = $1) as returns_count
 	`
-	var stationStatistics []models.StationStatistics
-	rows, err := m.DB.Query(query, id)
-	if err != nil {
-		return nil, err
+	var stationStatistics models.StationStatistics
+	err := m.DB.QueryRow(query, id).Scan(&stationStatistics.AvgDistanceDeparturesM, &stationStatistics.AvgDistanceReturnsM, &stationStatistics.DeparturesCount, &stationStatistics.ReturnsCount)
+	if stationStatistics.DeparturesCount == 0 && stationStatistics.ReturnsCount == 0 {
+		return models.StationStatistics{}, fmt.Errorf("station %s has no trip data", id)
 	}
-	defer rows.Close()
-
-	// Loop through the rows and append them to the slice
-	for rows.Next() {
-		var stationStatistic models.StationStatistics
-		err := rows.Scan(&stationStatistic.AvgDistanceDeparturesM, &stationStatistic.AvgDistanceReturnsM, &stationStatistic.DeparturesCount, &stationStatistic.ReturnsCount)
-		if err != nil {
-			return nil, err
-		}
-		stationStatistics = append(stationStatistics, stationStatistic)
+	if err != nil {
+		return models.StationStatistics{}, err
 	}
 
 	return stationStatistics, nil
