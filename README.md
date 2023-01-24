@@ -70,11 +70,8 @@
 - GoLang
 - PostgreSQL
 - Docker
-- Python with pandas (for parsing the data)
-    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
 
-
-<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white"> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">erotettu
+<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white"> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
 
 
 ## How to run
@@ -88,6 +85,8 @@ To run this project you need to have the following installed:
 - Docker
 - GoLang
 - npm
+- Python with pandas (for parsing the data)
+    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
 
 ### Running the app
 
@@ -309,7 +308,8 @@ Returns a single station with the specified id. Here is an example JSON response
 Returns a json array, with a maximum length of user specified limit, of stations that match the search term. Pagination is implemented with the "page" query, which specifies the page number (aka offset in SQL).
 
 ```
-[
+[    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
+
    {
       "id":22,
       "objId":"539",
