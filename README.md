@@ -32,6 +32,8 @@
 - [x] The application displays single station view.
     - [x] The view displays the station's name and address.
     - [x] The view displays a map with the station's location.
+    - [x] The view displays the station's average trip distance 
+    - [x] The view displays the station's average trip duration
 - [x] The application displays a list of trips.
     - [x] The list is paginated.
     - [x] The list can be searched by trip start and end station.
@@ -39,8 +41,6 @@
 ### Missing features:
 
 - The application displays more information about single station view, such as:
-    - [ ] Average trip distance
-    - [ ] Average trip duration
     - [ ] Top 5 most popular return stations for starting the from given station
     - [ ] Top 5 most popular starting stations for returning to given station
     - [ ] Ability to filter trips by date
