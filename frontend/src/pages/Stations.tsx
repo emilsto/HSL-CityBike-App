@@ -69,7 +69,7 @@ const Stations = () => {
             Next page
           </button>
         ) : (
-          <div className="station-button w-1/2 p-2 border  text-white text-4xl hover:text-white"></div>
+          <div className="station-button w-1/2 p-2  text-white text-4xl hover:text-white"></div>
         )}
         {page === 0 ? (
           <div className="journey-button w-1/2 p-2  text-white text-4xl  hover:text-white"></div>

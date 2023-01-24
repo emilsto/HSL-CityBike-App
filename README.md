@@ -51,6 +51,7 @@
     - [ ] Add tests
     - [ ] Add more styling
     - [ ] Add more documentation
+    - [ ] Deploy the app somewhere
 
 ## Technologies used
 
