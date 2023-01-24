@@ -311,7 +311,7 @@ Returns a single station with the specified id. Here is an example JSON response
 Returns a json array, with a maximum length of user specified limit, of stations that match the search term. Pagination is implemented with the "page" query, which specifies the page number (aka offset in SQL).
 
 ```
-[    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
+[
 
    {
       "id":22,
@@ -362,7 +362,7 @@ Here is an example JSON response:
 }
 ```
 
-Sometimes stations has no trips, and in that case the statistics are null. THe endpoint return an 404 error if the station is not found, like this:
+Sometimes station has no trips, and in that case the statistics are null. The endpoint returns an 404 error if the station is not found, like this:
 
 ```
 {
