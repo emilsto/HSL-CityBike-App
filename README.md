@@ -74,7 +74,7 @@
     - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
 
 
-<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white"> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
+<img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white"> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">erotettu
 
 
 ## How to run
@@ -343,7 +343,7 @@ Returns a json array, with a maximum length of user specified limit, of stations
 ```
 ### Trips
 
-- /api/v1/trips?q=&limit=20&page=0
+- GET /api/v1/trips?q=&limit=20&page=0
 
 Returns a json array, with a maximum length of user specified limit, of trips that match the search term. The array is paginated, and the user can specify which page to return. Page = offset parameter in the SQL query. q (search query) is optional, and if it's not specified, all trips are returned (according to limit and page). If the q is specified, the query will search for the term in the name of the station or address of the station. The query is case insensitive and queries both return and departure stations.
 
@@ -375,4 +375,13 @@ Here is an example JSON response:
    }
    ...
 ]
+```
+
+- GET /api/v1/stations/1/statistics
+
+Returns statistics for a single station.
+
+Here is an example JSON response:
+
+```
 ```
