@@ -46,11 +46,21 @@ func (m *Repository) FindTripsByPage(w http.ResponseWriter, r *http.Request) {
 // Get trips statistics for a given station
 func (m *Repository) StationTripStats(w http.ResponseWriter, r *http.Request) {
 	stationId := chi.URLParam(r, "id")
+
 	if stationId == "" {
 		sendError(w, "Missing id parameter", http.StatusBadRequest)
 		return
 	}
-	stats, err := m.DB.GetStationStatistics(stationId)
+
+	startTime := r.URL.Query().Get("startTime")
+	endTime := r.URL.Query().Get("endTime")
+
+	if startTime == "" || endTime == "" {
+		sendError(w, "Missing startTime or endTime parameter", http.StatusBadRequest)
+		return
+	}
+
+	stats, err := m.DB.GetStationStatistics(stationId, startTime, endTime)
 	if err != nil {
 		if strings.Contains(err.Error(), "has no trip data") {
 			sendError(w, err.Error(), http.StatusNotFound)

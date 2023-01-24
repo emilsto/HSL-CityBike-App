@@ -148,22 +148,22 @@ func (m *postgresDBRepo) TripsByPage(q string, offset string, limit string) ([]m
 	return trips, nil
 }
 
-func (m *postgresDBRepo) GetStationStatistics(id string) (models.StationStatistics, error) {
-	// Query the database
+func (m *postgresDBRepo) GetStationStatistics(id string, startTime string, endTime string) (models.StationStatistics, error) {
 	query := `SELECT
-	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE departure_station_id = $1) AS avg_distance_departures,
-	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE return_station_id = $1) AS avg_distance_returns,
-	(SELECT COUNT(*) FROM hsl_schema.trips WHERE departure_station_id = $1) as departures_count,
-	(SELECT COUNT(*) FROM hsl_schema.trips WHERE return_station_id = $1) as returns_count
-	`
+	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE departure_station_id = $1 AND "departure" >= $2 AND "departure" <= $3) AS avg_distance_departures,
+	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE return_station_id = $1 AND "return" >= $2 AND "return" <= $3) AS avg_distance_returns,
+	(SELECT COUNT(*) FROM hsl_schema.trips WHERE departure_station_id = $1 AND "departure" >= $2 AND "departure" <= $3) AS departures_count,
+	(SELECT COUNT(*) FROM hsl_schema.trips WHERE return_station_id = $1 AND "return" >= $2 AND "return" <= $3) AS returns_count`
+
+	fmt.Println(query)
+
 	var stationStatistics models.StationStatistics
-	err := m.DB.QueryRow(query, id).Scan(&stationStatistics.AvgDistanceDeparturesM, &stationStatistics.AvgDistanceReturnsM, &stationStatistics.DeparturesCount, &stationStatistics.ReturnsCount)
+	err := m.DB.QueryRow(query, id, startTime, endTime).Scan(&stationStatistics.AvgDistanceDeparturesM, &stationStatistics.AvgDistanceReturnsM, &stationStatistics.DeparturesCount, &stationStatistics.ReturnsCount)
 	if stationStatistics.DeparturesCount == 0 && stationStatistics.ReturnsCount == 0 {
 		return models.StationStatistics{}, fmt.Errorf("station %s has no trip data", id)
 	}
 	if err != nil {
 		return models.StationStatistics{}, err
 	}
-
 	return stationStatistics, nil
 }

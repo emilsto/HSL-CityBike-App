@@ -10,5 +10,5 @@ type DatabaseRepo interface {
 	FindAllStations() ([]models.Station, error)
 	StationsByPage(q string, offset string, limit string) ([]models.Station, error)
 	TripsByPage(q string, offset string, limit string) ([]models.TripData, error)
-	GetStationStatistics(id string) (models.StationStatistics, error)
+	GetStationStatistics(id string, startTime string, endTime string) (models.StationStatistics, error)
 }
