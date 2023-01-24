@@ -30,6 +30,8 @@
     - [x] The list is paginated.
     - [x] The list can be filtered by station name and address.
 - [x] The application displays single station view.
+    - [x] The view displays total number of journeys starting from the station.
+    - [x] The view displays total number of journeys ending at the station
     - [x] The view displays the station's name and address.
     - [x] The view displays a map with the station's location.
     - [x] The view displays the station's average trip distance 
@@ -123,8 +125,8 @@ Escape character is '^]'.
 #### Starting the backend
 
 - run command `cd backend`
-- run command `go build`
-- run command `go run .`
+- run command `go run cmd/API/*.go`
+- the backend should now be running on port 5000
 
 #### Starting the frontend
 
@@ -342,6 +344,34 @@ Returns a json array, with a maximum length of user specified limit, of stations
    ...
 ]
 ```
+
+- GET /api/v1/stations/1/statistics
+
+Returns statistics for a single station. Does not include ID of the station, because it's already in the URL and the usage of the endpoint is to get statistics for a specific station.
+
+Here is an example JSON response:
+
+```
+{
+   "AvgDistanceDeparturesM":3356.9917869155734,
+   "AvgDistanceReturnsM":2989.0224678642057,
+   "DeparturesCount":11892,
+   "ReturnsCount":12136,
+   "TopFiveDepartures":null,
+   "TopFiveReturns":null
+}
+```
+
+Sometimes stations has no trips, and in that case the statistics are null. THe endpoint return an 404 error if the station is not found, like this:
+
+```
+{
+   "message":"station 178 has no trip data",
+   "code":404
+}
+```
+
+
 ### Trips
 
 - GET /api/v1/trips?q=&limit=20&page=0
@@ -378,11 +408,3 @@ Here is an example JSON response:
 ]
 ```
 
-- GET /api/v1/stations/1/statistics
-
-Returns statistics for a single station.
-
-Here is an example JSON response:
-
-```
-```
