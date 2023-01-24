@@ -32,6 +32,8 @@
 - [x] The application displays single station view.
     - [x] The view displays the station's name and address.
     - [x] The view displays a map with the station's location.
+    - [x] The view displays the station's average trip distance 
+    - [x] The view displays the station's average trip duration
 - [x] The application displays a list of trips.
     - [x] The list is paginated.
     - [x] The list can be searched by trip start and end station.
@@ -39,8 +41,6 @@
 ### Missing features:
 
 - The application displays more information about single station view, such as:
-    - [ ] Average trip distance
-    - [ ] Average trip duration
     - [ ] Top 5 most popular return stations for starting the from given station
     - [ ] Top 5 most popular starting stations for returning to given station
     - [ ] Ability to filter trips by date
@@ -71,9 +71,6 @@
 - GoLang
 - PostgreSQL
 - Docker
-- Python with pandas (for parsing the data)
-    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
-
 
 <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white"> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
 
@@ -89,6 +86,8 @@ To run this project you need to have the following installed:
 - Docker
 - GoLang
 - npm
+- Python with pandas (for parsing the data)
+    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
 
 ### Running the app
 
@@ -310,7 +309,8 @@ Returns a single station with the specified id. Here is an example JSON response
 Returns a json array, with a maximum length of user specified limit, of stations that match the search term. Pagination is implemented with the "page" query, which specifies the page number (aka offset in SQL).
 
 ```
-[
+[    - In the future I might provide a download link for the parsed data, so that the user doesn't have to parse the data themselves.
+
    {
       "id":22,
       "objId":"539",
@@ -344,7 +344,7 @@ Returns a json array, with a maximum length of user specified limit, of stations
 ```
 ### Trips
 
-- /api/v1/trips?q=&limit=20&page=0
+- GET /api/v1/trips?q=&limit=20&page=0
 
 Returns a json array, with a maximum length of user specified limit, of trips that match the search term. The array is paginated, and the user can specify which page to return. Page = offset parameter in the SQL query. q (search query) is optional, and if it's not specified, all trips are returned (according to limit and page). If the q is specified, the query will search for the term in the name of the station or address of the station. The query is case insensitive and queries both return and departure stations.
 
@@ -376,4 +376,13 @@ Here is an example JSON response:
    }
    ...
 ]
+```
+
+- GET /api/v1/stations/1/statistics
+
+Returns statistics for a single station.
+
+Here is an example JSON response:
+
+```
 ```
