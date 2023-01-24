@@ -45,7 +45,7 @@
 - The application displays more information about single station view, such as:
     - [ ] Top 5 most popular return stations for starting the from given station
     - [ ] Top 5 most popular starting stations for returning to given station
-    - [ ] Ability to filter trips by date
+    - [ ] Ability to filter trips by date (backend work done)
 - The application jorney list has the ability to:
     - [ ] Order the list by columns
     - [ ] Filter the list
