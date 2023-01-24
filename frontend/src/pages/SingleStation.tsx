@@ -51,13 +51,13 @@ const SingleStation = () => {
   }, [id]);
   return (
     <div className="text-white">
-      <h1 className="text-5xl p-8">{station.name}</h1>
-      <p className="text-4xl p-16">{station.address + ","} {station.city}</p>
+      <h1 className="text-5xl p-4">{station.name}</h1>
+      <p className="text-4xl pb-8">{station.address + ","} {station.city}</p>
       <div className="flex flex-col items-center">
         {error && <div className="text-2xl p-8">{error}</div>}
         {isLoading && <Spinner />}
         {stationStatistics && isLoading === false && error === "" && (
-          <table className="w-1/2 text-left text-2xl">
+          <table className="w-1/2 text-2xl">
             <thead className="border-b text-2xl ">
               <tr>
                 <th scope="col" className="px-6 py-3">Avg departing trip distance</th>
@@ -70,8 +70,8 @@ const SingleStation = () => {
               <tr>
                 <td className="px-6 py-4">{(stationStatistics.AvgDistanceDeparturesM/1000).toFixed(1)} km</td>
                 <td className="px-6 py-4">{(stationStatistics.AvgDistanceReturnsM/1000).toFixed(1)} km</td>
-                <td className="px-6 py-4">{stationStatistics.DeparturesCount} bikes</td>
-                <td className="px-6 py-4">{stationStatistics.ReturnsCount} bikes</td>
+                <td className="px-6 py-4">{stationStatistics.DeparturesCount}</td>
+                <td className="px-6 py-4">{stationStatistics.ReturnsCount}</td>
               </tr>
             </tbody>
           </table>

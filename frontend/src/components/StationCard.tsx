@@ -19,7 +19,6 @@ const StationCard = (props: Props) => {
       <td className="px-6 py-4">{props.station.nameFi}</td>
       <td className="px-6 py-4">{props.station.address}</td>
       <td className="px-6 py-4">{props.station.city}</td>
-      <td className="px-6 py-4">{props.station.capacity}</td>
     </tr>
   );
 };
