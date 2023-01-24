@@ -235,6 +235,8 @@ HTTP requests are handled by handlers, which are located in the pkg/handlers dir
 
 The database connection is defined in the db.go file and is also initialized in the main.go file. This allows for easy management of the database connection throughout the application. 
 
+Im not using ORM in this project, mainly because i didn't want to and I wanted to refresh my SQL skills. Also, the database is not that complex, so it's not really needed and perhaps it keeps the code base smaller and easier to understand.
+
 ## Database
 
 The posgtgressql database is running in a Docker container, and it's populated with data from the downloaded sources, that is combined and cleaned by a python script. When starting the container, the database is initialized via init.sql, which creates the tables and inserts the data into the database. The database is running on port 5432. The database contains tables for stations and trips.
@@ -345,20 +347,20 @@ Returns a json array, with a maximum length of user specified limit, of stations
 ]
 ```
 
-- GET /api/v1/stations/1/statistics
+- GET /api/v1/stations/4/statistics?startTime=2021-05-01&endTime=2021-06-30
 
-Returns statistics for a single station. Does not include ID of the station, because it's already in the URL and the usage of the endpoint is to get statistics for a specific station.
+Returns statistics for a single station. Does not include ID of the station, because it's already in the URL and the usage of the endpoint is to get statistics for a specific station. Query also takes two parameters, startTime and endTime, which specify the time period for which the statistics are calculated. The times are formatted as YYYY-MM-DD.
 
 Here is an example JSON response:
 
 ```
 {
-   "AvgDistanceDeparturesM":3356.9917869155734,
-   "AvgDistanceReturnsM":2989.0224678642057,
-   "DeparturesCount":11892,
-   "ReturnsCount":12136,
-   "TopFiveDepartures":null,
-   "TopFiveReturns":null
+  "AvgDistanceDeparturesM": 2253.987524731183,
+  "AvgDistanceReturnsM": 2249.5903598525906,
+  "DeparturesCount": 4650,
+  "ReturnsCount": 4613,
+  "TopFiveDepartures": null,
+  "TopFiveReturns": null
 }
 ```
 
