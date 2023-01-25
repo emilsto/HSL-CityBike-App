@@ -34,6 +34,9 @@ func (m *postgresDBRepo) FindStationByID(stationID string) (models.Station, erro
 	var station models.Station
 	err := m.DB.QueryRow(query, stationID).Scan(&station.ID, &station.ObjId, &station.NameFi, &station.NameSe, &station.Name, &station.Address, &station.AddressSe, &station.City, &station.Capacity, &station.Latitude, &station.Longitude)
 	if err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			return models.Station{}, fmt.Errorf("station with id %s not found", stationID)
+		}
 		return models.Station{}, err
 	}
 	return station, nil

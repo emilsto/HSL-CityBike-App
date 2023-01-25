@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 
@@ -17,13 +18,16 @@ import (
 func (m *Repository) Station(w http.ResponseWriter, r *http.Request) {
 	stationId := chi.URLParam(r, "id")
 	if stationId == "" {
-		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		sendError(w, "Missing id parameter", http.StatusBadRequest)
 		return
 	}
 	station, err := m.DB.FindStationByID(stationId)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "Error retrieving station", http.StatusInternalServerError)
+		if strings.Contains(err.Error(), "not found") {
+			sendError(w, "Station not found", http.StatusNotFound)
+			return
+		}
+		sendError(w, "Error retrieving station", http.StatusInternalServerError)
 		return
 	}
 
