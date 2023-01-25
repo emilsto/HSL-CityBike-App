@@ -33,11 +33,7 @@ func main() {
 
 	log.Printf("Listening on port %s", port)
 
-	srv := &http.Server{
-		Addr:    port,
-		Handler: routes(&app),
-	}
-
-	log.Fatal(srv.ListenAndServe())
+	mux := routes(&app)
+	log.Fatal(http.ListenAndServe(port, mux))
 
 }
