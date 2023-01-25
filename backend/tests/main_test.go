@@ -1,69 +1,112 @@
 //API ENDPOINT TESTS
 
-package main
+package main__test
 
 import (
-	"log"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
 
-	"github.com/emilsto/HSL-CityBike-App/internal/driver"
-	"github.com/emilsto/HSL-CityBike-App/pkg/config"
-
-	"github.com/emilsto/HSL-CityBike-App/pkg/handlers"
-	"github.com/go-chi/chi/v5"
+	"github.com/emilsto/HSL-CityBike-App/models"
 )
 
-const BASE_URL = "localhost:5000/api/v1"
-
-func init() {
-	// create a new config
-	var app config.AppConfig
-
-	//set production to false
-	app.Production = false
-
-	db, err := driver.ConnectSQL("host=localhost port=5432 user=postgres password=postgres dbname=bikedata sslmode=disable")
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println("Successfully connected to database!")
-	defer db.SQL.Close()
-
-	// create a new repo, and set it as the global repo
-	repo := handlers.NewRepo(&app, db)
-	handlers.NewHandlers(repo)
+type stationData struct {
+	key  string
+	data string
 }
 
-func TestHomeRoute(t *testing.T) {
+var apiTests = []struct {
+	name                 string
+	url                  string
+	method               string
+	params               []stationData
+	expectedResponseCode int
+}{
+	{"Home", "/", "GET", []stationData{}, http.StatusOK},                          // good request
+	{"Stations", "/stations", "GET", []stationData{}, http.StatusOK},              // good request
+	{"Stations", "/stations/323232", "GET", []stationData{}, http.StatusNotFound}, // bad request, invalid station id
+}
 
-	// Create a request to pass to our handler
-	req, err := http.NewRequest("GET", BASE_URL, nil)
+// run simple tests for the API endpoints, to check if they return the correct status codes
+func TestRoutes(t *testing.T) {
+	routes := getRoutes()
+	ts := httptest.NewTLSServer(routes)
+	defer ts.Close()
+
+	for _, test := range apiTests {
+		if test.method == "GET" {
+			res, err := ts.Client().Get(ts.URL + test.url)
+			if err != nil {
+				t.Log(err)
+				t.Fatal()
+			}
+			if res.StatusCode != test.expectedResponseCode {
+				t.Errorf("Expected status code %d, got %d", test.expectedResponseCode, res.StatusCode)
+			}
+		} else {
+			t.Errorf("Unsupported method %s", test.method)
+		}
+	}
+}
+
+func TestStationById(t *testing.T) {
+	//example station
+	expectedStation := models.Station{
+		ID:        1,
+		ObjId:     "501",
+		NameFi:    "Hanasaari",
+		NameSe:    "Hanaholmen",
+		Name:      "Hanasaari",
+		Address:   "Hanasaarenranta 1",
+		AddressFi: "",
+		AddressSe: "Hanaholmsstranden 1",
+		City:      "Espoo",
+		Capacity:  10,
+		Latitude:  24.840319,
+		Longitude: 60.16582,
+	}
+
+	routes := getRoutes()
+	ts := httptest.NewTLSServer(routes)
+	defer ts.Close()
+
+	url := fmt.Sprintf("%s/stations/%s", ts.URL, "1")
+	res, err := ts.Client().Get(url)
 	if err != nil {
-		t.Fatal(err)
+		t.Log(err)
+		t.Fatal()
 	}
 
-	// Create a new router for testing
-	mux := chi.NewRouter()
-	mux.Get("/", handlers.Repo.Home)
-
-	// Create a ResponseRecorder to record the response
-	rr := httptest.NewRecorder()
-
-	// Serve the request
-	mux.ServeHTTP(rr, req)
-
-	// Check the status code is what we expect
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
+	//check if the response status code is 200
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("Expected status code %d, got %d", http.StatusOK, res.StatusCode)
 	}
 
-	// Check the response body is what we expect
-	expected := `API is online 💻⚡ get to coding!`
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v",
-			rr.Body.String(), expected)
+	// check if the response is a JSON
+	if res.Header.Get("Content-Type") != "application/json" {
+		t.Errorf("Expected Content-Type to be application/json, got %s", res.Header.Get("Content-Type"))
 	}
+
+	// check if the response body is not empty
+	if res.ContentLength == 0 {
+		t.Errorf("Expected Content-Length to be greater than 0, got %d", res.ContentLength)
+	}
+
+	// Create a new station
+	var station models.Station
+
+	// check if the response body is a valid JSON
+	err = json.NewDecoder(res.Body).Decode(&station)
+	if err != nil {
+		t.Log(err)
+		t.Fatal()
+	}
+
+	if !reflect.DeepEqual(station, expectedStation) {
+		t.Errorf("Expected response to be %+v, got %+v", expectedStation, station)
+	}
+
 }
