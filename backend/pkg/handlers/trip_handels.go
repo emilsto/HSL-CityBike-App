@@ -21,13 +21,13 @@ func (m *Repository) FindTripsByPage(w http.ResponseWriter, r *http.Request) {
 	offset := r.URL.Query().Get("limit")
 	q := r.URL.Query().Get("q")
 	if offset == "" || page == "" {
-		http.Error(w, "Missing offset or limit parameter", http.StatusBadRequest)
+		sendError(w, "Missing offset or limit parameter", http.StatusBadRequest)
 		return
 	}
 	trips, err := m.DB.TripsByPage(q, page, offset)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Error retrieving trips", http.StatusInternalServerError)
+		sendError(w, "Error retrieving trips", http.StatusInternalServerError)
 		return
 	}
 
@@ -35,7 +35,7 @@ func (m *Repository) FindTripsByPage(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(trips); err != nil {
 		log.Println(err)
-		http.Error(w, "Error encoding trips", http.StatusInternalServerError)
+		sendError(w, "Error encoding trips", http.StatusInternalServerError)
 		return
 	}
 	//close response body after writing to it

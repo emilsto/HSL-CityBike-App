@@ -35,7 +35,7 @@ func (m *Repository) Station(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(station); err != nil {
 		log.Println(err)
-		http.Error(w, "Error encoding station", http.StatusInternalServerError)
+		sendError(w, "Error encoding station", http.StatusInternalServerError)
 		return
 	}
 	//close response body after writing to it
@@ -46,13 +46,13 @@ func (m *Repository) Station(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) StationByObjID(w http.ResponseWriter, r *http.Request) {
 	stationId := chi.URLParam(r, "id")
 	if stationId == "" {
-		http.Error(w, "Missing id parameter", http.StatusBadRequest)
+		sendError(w, "Missing id parameter", http.StatusBadRequest)
 		return
 	}
 	station, err := m.DB.FindStationByObjID(stationId)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Error retrieving station", http.StatusInternalServerError)
+		sendError(w, "Error retrieving station", http.StatusInternalServerError)
 		return
 	}
 
@@ -60,7 +60,7 @@ func (m *Repository) StationByObjID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(station); err != nil {
 		log.Println(err)
-		http.Error(w, "Error encoding station", http.StatusInternalServerError)
+		sendError(w, "Error encoding station", http.StatusInternalServerError)
 		return
 	}
 	//close response body after writing to it
@@ -72,7 +72,7 @@ func (m *Repository) AllStations(w http.ResponseWriter, r *http.Request) {
 	stations, err := m.DB.FindAllStations()
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Error retrieving stations", http.StatusInternalServerError)
+		sendError(w, "Error retrieving stations", http.StatusInternalServerError)
 		return
 	}
 
@@ -80,7 +80,7 @@ func (m *Repository) AllStations(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(stations); err != nil {
 		log.Println(err)
-		http.Error(w, "Error encoding stations", http.StatusInternalServerError)
+		sendError(w, "Error encoding stations", http.StatusInternalServerError)
 		return
 	}
 	//close response body after writing to it
@@ -94,21 +94,21 @@ func (m *Repository) FindStationByPage(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query().Get("q")
 	if page == "" || offset == "" {
 		//allow empty search term, but not page or offset
-		http.Error(w, "Missing page or offset parameter", http.StatusBadRequest)
+		sendError(w, "Missing page or offset parameter", http.StatusBadRequest)
 		println("Page" + page + "offset" + offset)
 		return
 	}
 	stations, err := m.DB.StationsByPage(q, page, offset)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Error retrieving stations", http.StatusInternalServerError)
+		sendError(w, "Error retrieving stations", http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(stations); err != nil {
 		log.Println(err)
-		http.Error(w, "Error encoding stations", http.StatusInternalServerError)
+		sendError(w, "Error encoding stations", http.StatusInternalServerError)
 		return
 	}
 	//close response body after writing to it

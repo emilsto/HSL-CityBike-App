@@ -11,6 +11,8 @@ type ErrorResponse struct {
 	Code    int    `json:"code"`
 }
 
+// Universal error handler for sending error messages in standard format
+
 func sendError(w http.ResponseWriter, message string, code int) {
 	errorResponse := ErrorResponse{
 		Message: message,
