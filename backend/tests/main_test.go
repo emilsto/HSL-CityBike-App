@@ -28,6 +28,8 @@ var apiTests = []struct {
 	{"Home", "/", "GET", []stationData{}, http.StatusOK},                          // good request
 	{"Stations", "/stations", "GET", []stationData{}, http.StatusOK},              // good request
 	{"Stations", "/stations/323232", "GET", []stationData{}, http.StatusNotFound}, // bad request, invalid station id
+	{"Stations", "/stations/32", "GET", []stationData{}, http.StatusOK},           // good request
+
 }
 
 // run simple tests for the API endpoints, to check if they return the correct status codes
