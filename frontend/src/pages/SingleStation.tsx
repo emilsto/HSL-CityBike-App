@@ -24,35 +24,13 @@ const SingleStation = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [stationError, setStationError] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [selectedMonths, setSelectedMonths] = useState<string[]>([
-    "2021-05",
-    "2021-06",
-    "2021-07",
-  ]); //array of selected months
-  const { id } = useParams();
+  const [startTime, setStartTime] = useState<string>("2021-05-01");
+  const [endTime, setEndTime] = useState<string>("2021-07-31");
 
-  const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    if (selectedMonths.includes(value)) {
-      setSelectedMonths(selectedMonths.filter((month) => month !== value));
-    } else {
-      setSelectedMonths([...selectedMonths, value]);
-    }
-  };
+  const { id } = useParams();
 
   // fetch station data
   useEffect(() => {
-    let startTime =
-      selectedMonths.length > 0
-        ? selectedMonths.sort()[0] + "-01"
-        : "2021-05-01";
-    let endTime =
-      selectedMonths.length > 0
-        ? selectedMonths.sort()[selectedMonths.length - 1] + "-31"
-        : "2021-07-31";
-    if (endTime === "2021-06-31") {
-      endTime = "2021-06-30";
-    }
     const fetchData = async () => {
         setIsLoading(true);
         try {
@@ -85,7 +63,7 @@ const SingleStation = () => {
         setIsLoading(false);
     };
     fetchData();
-  }, [id, selectedMonths]);
+  }, [id, startTime, endTime]);
   return (
     <div className="text-white">
       <h1 className="text-5xl p-4">{station.name}</h1> {stationError && <h1 className="text-5xl p-4">{stationError}</h1>}
@@ -93,43 +71,31 @@ const SingleStation = () => {
         {station.address + ","} {station.city}
       </p>}
       <div className="flex flex-col items-center">
-        <div className="text-3xl">
-          <input
-            type="checkbox"
-            id="may"
-            name="month"
-            value="2021-05"
-            className="form-checkbox h-8 w-8"
-            checked={selectedMonths.includes("2021-05")}
-            onChange={handleMonthChange}
-          />
-          <label htmlFor="may" className="mx-6 text-3xl">
-            May
-          </label>
-          <input
-            type="checkbox"
-            id="june"
-            name="month"
-            value="2021-06"
-            className="form-checkbox h-8 w-8"
-            checked={selectedMonths.includes("2021-06")}
-            onChange={handleMonthChange}
-          />
-          <label htmlFor="june" className="mx-6 text-3xl">
-            June
-          </label>
-          <input
-            type="checkbox"
-            id="july"
-            name="month"
-            value="2021-07"
-            className="form-checkbox h-8 w-8"
-            checked={selectedMonths.includes("2021-07")}
-            onChange={handleMonthChange}
-          />
-          <label htmlFor="july" className="mx-6 text-3xl">
-            July
-          </label>
+        <div className="w-1/2 flex-row">
+        <label htmlFor="startMonth" className="text-white text-2xl p-4">From</label>
+  <select
+    name="startMonth"
+    id="startMonth"
+    className="bg-transparent text-white text-2xl rounded-lg focus:outline-none appearance-none "
+    onChange={(e) => setStartTime(e.target.value)}
+    defaultValue="2021-05-01"
+  >
+    <option value="2021-05-01" >May 2021</option>
+    <option value="2021-06-01" disabled={endTime === "2021-05-31"}>June 2021</option>
+    <option value="2021-07-01" disabled={endTime === "2021-05-31" || endTime === "2021-06-30"}>July 2021</option>
+  </select>
+<label htmlFor="endMonth" className="text-white text-2xl p-4">to</label>
+  <select
+    name="endMonth"
+    id="endMonth"
+    className="bg-transparent text-white text-2xl rounded-lg focus:outline-none appearance-none"
+    onChange={(e) => setEndTime(e.target.value)}
+    defaultValue="2021-07-31"
+  >
+    <option value="2021-05-31" disabled={startTime > "2021-05-31"}>May 2021</option>
+    <option value="2021-06-30" disabled={startTime > "2021-06-30"}>June 2021</option>
+    <option value="2021-07-31">July 2021</option>
+  </select>
         </div>
 
         {error && <div className="text-2xl p-8">{error}</div>}

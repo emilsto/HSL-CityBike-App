@@ -36,6 +36,7 @@
     - [x] The view displays a map with the station's location.
     - [x] The view displays the station's average trip distance 
     - [x] The view displays the station's average trip duration
+    - [x] The view is able to filter trips by date
 - [x] The application displays a list of trips.
     - [x] The list is paginated.
     - [x] The list can be searched by trip start and end station.
@@ -45,7 +46,6 @@
 - The application displays more information about single station view, such as:
     - [ ] Top 5 most popular return stations for starting the from given station
     - [ ] Top 5 most popular starting stations for returning to given station
-    - [ ] Ability to filter trips by date (backend work done)
 - The application jorney list has the ability to:
     - [ ] Order the list by columns
     - [ ] Filter the list
@@ -219,6 +219,24 @@ Here is a simplified view of the project structure:
    └─ tsconfig.json
 ```
 
+### Frontend
+
+The frontend is split into four main pages:
+
+- `Home` - contains the home page of the application
+- `Stations` - contains the list of all stations
+- `SingleStation` - contains the details of a single station
+- `Journeys` - contains the list of all journeys
+
+The code structure has been split into four main directories:
+
+- 'api' - contains the axios.tsx file which is used to make HTTP requests to the backend
+- 'components' - contains the StationCard and TripCard components which are used to display the data from the backend
+- 'pages' - contains the Home, Stations, SingleStation and Journeys pages
+- 'interfaces' - contains the interfaces used to define the data types of the data fetched from the backend
+- 'styles' - contains the CSS files used to style the pages
+
+
 ### Backend
 
 The backend API is split into five Go packages:
@@ -305,6 +323,15 @@ Returns a single station with the specified id. Here is an example JSON response
    "capacity":20,
    "latitude":24.820099,
    "longitude":60.184987
+}
+```
+
+If the station with the specified id is not found, the response is:
+
+```
+{
+   "message":"Station not found"
+   "code":404
 }
 ```
 
