@@ -1,53 +1,52 @@
 .nav-button {
-    width: 0;
-    height: 0;
-    border-top: 35px solid transparent;
-    border-bottom: 35px solid transparent;
-    cursor: pointer;
-  }
+  width: 0;
+  height: 0;
+  border-top: 35px solid transparent;
+  border-bottom: 35px solid transparent;
+  cursor: pointer;
+}
 
 .nav-button-disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .nav-button:hover {
-    animation: zoom-button 0.3s;
-    animation-fill-mode: forwards;
-  }
-  
-  .nav-button:active {
-    animation: click 0.3s;
-    animation-fill-mode: forwards;
-  }
+  animation: zoom-button 0.3s;
+  animation-fill-mode: forwards;
+}
 
-  #left-btn {
-    border-right: 50px solid #fff;
-    margin-right: 25px;
-  }
-  
-  #right-btn {
-    border-left: 50px solid #fff;
-    margin-left: 25px;
-  }
+.nav-button:active {
+  animation: click 0.3s;
+  animation-fill-mode: forwards;
+}
 
+#left-btn {
+  border-right: 50px solid #fff;
+  margin-right: 25px;
+}
+
+#right-btn {
+  border-left: 50px solid #fff;
+  margin-left: 25px;
+}
 
 @keyframes click {
-    0% {
-      transform: scale(0);
-      opacity: 1;
-    }
-    100% {
-        transform: scale(2);
-        opacity: 0;
-      }
-    }
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
 
-    @keyframes zoom-button {
-        from {
-          transform: scale(1);
-        }
-        to {
-            transform: scale(1.25);
-        }
-      }
+@keyframes zoom-button {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.25);
+  }
+}

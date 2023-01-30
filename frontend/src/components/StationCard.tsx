@@ -15,9 +15,14 @@ const StationCard = (props: Props) => {
   };
 
   return (
-    <tr className="text-lg text-white cursor-pointer border-b hover:opacity-60" onClick={handleClick}>
+    <tr
+      className="text-lg text-white cursor-pointer border-b hover:opacity-60"
+      onClick={handleClick}
+    >
       <td className="px-6 py-4">{props.station.nameFi}</td>
-      <td className="px-6 py-4">{props.station.address}</td>
+      <td className="px-6 py-4">
+        {props.station.address} / {props.station.addressSe}
+      </td>
       <td className="px-6 py-4">{props.station.city}</td>
     </tr>
   );

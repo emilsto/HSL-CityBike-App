@@ -6,13 +6,12 @@ interface Props {
 }
 
 const StationCard = (props: Props) => {
-
   //trip duration to minutes
-    const duration = props.trip.durationSec / 60;
-    const durationMinutes = duration.toFixed(1);
+  const duration = props.trip.durationSec / 60;
+  const durationMinutes = duration.toFixed(1);
   //trip distance to km
-    const distance = props.trip.distanceMeters / 1000;
-    const distanceKm = distance.toFixed(1);
+  const distance = props.trip.distanceMeters / 1000;
+  const distanceKm = distance.toFixed(1);
 
   return (
     <tr className="text-lg text-white border-b hover:opacity-60">

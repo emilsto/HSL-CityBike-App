@@ -32,77 +32,94 @@ const SingleStation = () => {
   // fetch station data
   useEffect(() => {
     const fetchData = async () => {
-        setIsLoading(true);
-        try {
+      setIsLoading(true);
+      try {
         const stationResponse = await api.get(`${STATION_PATH}/${id}`);
         const station = await stationResponse.data;
         setStation(station);
-        } catch (err) {
-          const error = err as AxiosError;
-          if (error.response?.status === 404) {
-            setStationError("Station not found");
-          } else {
-            setStationError("An error occured while fetching station data");
-          }
-
+      } catch (err) {
+        const error = err as AxiosError;
+        if (error.response?.status === 404) {
+          setStationError("Station not found");
+        } else {
+          setStationError("An error occured while fetching station data");
         }
-        try {
+      }
+      try {
         const statisticsResponse = await api.get(
           `${STATION_PATH}/${id}/statistics?startTime=${startTime}&endTime=${endTime}`
         );
         const statistics = await statisticsResponse.data;
         setStationStatistics(statistics);
-        } catch (err) {
-          const error = err as AxiosError;
-          if (error.response?.status === 404) {
-            setError("No data available for selected months");
-          } else {
-            setError("An error occured while fetching station data");
-          }
+      } catch (err) {
+        const error = err as AxiosError;
+        if (error.response?.status === 404) {
+          setError("No data available for selected months");
+        } else {
+          setError("An error occured while fetching station data");
         }
-        setIsLoading(false);
+      }
+      setIsLoading(false);
     };
     fetchData();
   }, [id, startTime, endTime]);
   return (
     <div className="text-white">
-      <h1 className="text-5xl p-4">{station.name}</h1> {stationError && <h1 className="text-5xl p-4">{stationError}</h1>}
-      {station.address && <p className="text-4xl pb-8">
-        {station.address + ","} {station.city}
-      </p>}
+      <h1 className="text-5xl p-4">{station.name}</h1>{" "}
+      {stationError && <h1 className="text-5xl p-4">{stationError}</h1>}
+      {station.address && (
+        <p className="text-4xl pb-8">
+          {station.address + ","} {station.city}
+        </p>
+      )}
       <div className="flex flex-col items-center">
         <div className="w-1/2 flex-row">
-        <label htmlFor="startMonth" className="text-white text-2xl p-4">From</label>
-  <select
-    name="startMonth"
-    id="startMonth"
-    className="bg-transparent text-white text-2xl rounded-lg focus:outline-none appearance-none "
-    onChange={(e) => setStartTime(e.target.value)}
-    defaultValue="2021-05-01"
-  >
-    <option value="2021-05-01" >May 2021</option>
-    <option value="2021-06-01" disabled={endTime === "2021-05-31"}>June 2021</option>
-    <option value="2021-07-01" disabled={endTime === "2021-05-31" || endTime === "2021-06-30"}>July 2021</option>
-  </select>
-<label htmlFor="endMonth" className="text-white text-2xl p-4">to</label>
-  <select
-    name="endMonth"
-    id="endMonth"
-    className="bg-transparent text-white text-2xl rounded-lg focus:outline-none appearance-none"
-    onChange={(e) => setEndTime(e.target.value)}
-    defaultValue="2021-07-31"
-  >
-    <option value="2021-05-31" disabled={startTime > "2021-05-31"}>May 2021</option>
-    <option value="2021-06-30" disabled={startTime > "2021-06-30"}>June 2021</option>
-    <option value="2021-07-31">July 2021</option>
-  </select>
+          <label htmlFor="startMonth" className="text-white text-2xl p-4">
+            From
+          </label>
+          <select
+            name="startMonth"
+            id="startMonth"
+            className="bg-transparent text-white text-2xl rounded-lg focus:outline-none appearance-none "
+            onChange={(e) => setStartTime(e.target.value)}
+            defaultValue="2021-05-01"
+          >
+            <option value="2021-05-01">May 2021</option>
+            <option value="2021-06-01" disabled={endTime === "2021-05-31"}>
+              June 2021
+            </option>
+            <option
+              value="2021-07-01"
+              disabled={endTime === "2021-05-31" || endTime === "2021-06-30"}
+            >
+              July 2021
+            </option>
+          </select>
+          <label htmlFor="endMonth" className="text-white text-2xl p-4">
+            to
+          </label>
+          <select
+            name="endMonth"
+            id="endMonth"
+            className="bg-transparent text-white text-2xl rounded-lg focus:outline-none appearance-none"
+            onChange={(e) => setEndTime(e.target.value)}
+            defaultValue="2021-07-31"
+          >
+            <option value="2021-05-31" disabled={startTime > "2021-05-31"}>
+              May 2021
+            </option>
+            <option value="2021-06-30" disabled={startTime > "2021-06-30"}>
+              June 2021
+            </option>
+            <option value="2021-07-31">July 2021</option>
+          </select>
         </div>
 
         {error && <div className="text-2xl p-8">{error}</div>}
         {isLoading && <Spinner />}
         {stationStatistics && isLoading === false && error === "" && (
           <table className="w-1/2 text-2xl">
-            <thead className="border-b text-2xl ">
+            <thead className="border-b text-xl ">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Avg departing trip distance
