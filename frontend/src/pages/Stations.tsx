@@ -7,7 +7,7 @@ import "../styles/buttons.css";
 //interface
 import Station from "../interfaces/station_interface";
 
-const STAION_URL = "http://localhost:5000/api/v1/stations_page";
+const STAION_URL = "/api/v1/stations_page";
 const PAGE_SIZE = 20;
 const LIMIT = 20;
 
@@ -40,6 +40,7 @@ const Stations = () => {
           setHasMore(false); //if response length is less than limit, then there is no more data
         }
       } catch (error) {
+        console.log(error);
         setHasMore(false); //if error, then there is no more data
       }
     };
@@ -49,6 +50,7 @@ const Stations = () => {
   return (
     <div className="w-screen h-screen">
       <h1 className="text-5xl p-8 text-white">HSL CityBike stations</h1>
+      <p className="text-white text-xl">Click on a station to see more information about it.</p>
       <div className="flex flex-row justify-center">
       {page === 0 ? <div className="nav-button nav-button-disabled" id="left-btn"></div> : <div className="nav-button" id="left-btn" onClick={() => setPage(page-1)}></div>}
         <input
@@ -64,7 +66,7 @@ const Stations = () => {
             {hasMore ? <div className="nav-button " id="right-btn" onClick={() => hasMore && setPage(page + 1)}></div> : <div className="nav-button nav-button-disabled" id="right-btn"></div>}
       </div>
       <div className="mx-2">
-        <table className="w-full h-full text-center table-fixed">
+        <table className="w-full h-full text-left table-fixed">
           <thead className="text-4xl text-white border-b">
             <tr className="">
               <th scope="col" className="px-6 py-3">
