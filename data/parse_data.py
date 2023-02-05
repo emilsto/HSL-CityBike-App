@@ -6,7 +6,7 @@ import pandas as pd
 may_2021 = pd.read_csv('2021-05.csv')
 june_2021 = pd.read_csv('2021-06.csv')
 july_2021 = pd.read_csv('2021-07.csv')
-locations = pd.read_csv('locations.csv')
+locations = pd.read_csv('Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv')
 
 
 # Verifying and cleaning the data
