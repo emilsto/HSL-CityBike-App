@@ -79,7 +79,7 @@
 
 ## How to run
 
-- Note: This project is still in development, so some things might not work as intended, and the instructions below might not be complete.
+- Note: Instructions are for Linux, and they have been tested on Fedora 37 and macOS Ventura 13.0.1. I don't know if they work on Windows, but I don't see why they wouldn't.
 
 ### Pre-requisites:
 
@@ -109,7 +109,7 @@ and place them in the `data` directory of the project. After that run the python
 
 #### Starting the database
 
-- run command `cd db`
+- move to the `db` directory
 - run command `docker build -t hsl-bikeapp-db .`
 - run command `docker run -d -p 5432:5432 hsl-bikeapp-db`
 - The database should now be running on port 5432, you can check this by running `docker ps` and test the connection by telnetting to the port `telnet localhost 5432` , for example. You should see something like this:
@@ -124,8 +124,9 @@ Escape character is '^]'.
 
 #### Starting the backend
 
-- run command `cd backend`
-- run command `go run cmd/API/*.go`
+- move to the `backend` directory
+- run command `go mod download` to download the dependencies
+- run command `go run cmd/API/*.go` 
 - the backend should now be running on port 5000
 
 #### Starting the frontend

@@ -95,7 +95,6 @@ func (m *Repository) FindStationByPage(w http.ResponseWriter, r *http.Request) {
 	if page == "" || offset == "" {
 		//allow empty search term, but not page or offset
 		sendError(w, "Missing page or offset parameter", http.StatusBadRequest)
-		println("Page" + page + "offset" + offset)
 		return
 	}
 	stations, err := m.DB.StationsByPage(q, page, offset)

@@ -2,7 +2,6 @@ package dbrepo
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/emilsto/HSL-CityBike-App/models"
 )
@@ -58,7 +57,6 @@ func (m *postgresDBRepo) FindStationByObjID(stationObjID string) (models.Station
 func (m *postgresDBRepo) FindAllStations() ([]models.Station, error) {
 	// Query the database
 	query := `SELECT * FROM hsl_schema.stations`
-	log.Println(query)
 
 	var stations []models.Station
 	rows, err := m.DB.Query(query)
@@ -157,8 +155,6 @@ func (m *postgresDBRepo) GetStationStatistics(id string, startTime string, endTi
 	(SELECT AVG(distance_m) FROM hsl_schema.trips WHERE return_station_id = $1 AND "return" >= $2 AND "return" <= $3) AS avg_distance_returns,
 	(SELECT COUNT(*) FROM hsl_schema.trips WHERE departure_station_id = $1 AND "departure" >= $2 AND "departure" <= $3) AS departures_count,
 	(SELECT COUNT(*) FROM hsl_schema.trips WHERE return_station_id = $1 AND "return" >= $2 AND "return" <= $3) AS returns_count`
-
-	fmt.Println(query)
 
 	var stationStatistics models.StationStatistics
 	err := m.DB.QueryRow(query, id, startTime, endTime).Scan(&stationStatistics.AvgDistanceDeparturesM, &stationStatistics.AvgDistanceReturnsM, &stationStatistics.DeparturesCount, &stationStatistics.ReturnsCount)
