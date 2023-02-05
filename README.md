@@ -79,7 +79,7 @@
 
 ## How to run
 
-- Note: Instructions are for Linux, and they have been tested on Fedora 37 and macOS Ventura 13.0.1. I don't know if they work on Windows, but I don't see why they wouldn't.
+- Note: Instructions are for Linux, and they have been tested on Fedora 37 and macOS Ventura 13.0.1. I don't know if they work on Windows, but I don't see why they wouldn't. If you have probelms running the app, be in touch!
 
 ### Pre-requisites:
 
