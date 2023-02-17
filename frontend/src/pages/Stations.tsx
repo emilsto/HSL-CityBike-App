@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import api from "../api/axios";
 import StationCard from "../components/StationCard";
 
@@ -13,7 +13,6 @@ const LIMIT = 20;
 
 const Stations = () => {
   const [stations, setStations] = useState<Station[]>();
-  const [limit, setLimit] = useState<number>(PAGE_SIZE);
   const [page, setPage] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [query, setQuery] = useState<string>("");
@@ -21,14 +20,12 @@ const Stations = () => {
   useEffect(() => {
     const fetchStations = async () => {
       console.log("fetching stations");
-
       //query parameters
       const queries = {
         q: query,
         limit: LIMIT,
         page: PAGE_SIZE * page,
       };
-
       try {
         const response = await api.get(STAION_URL, { params: queries });
         const data = response.data;
@@ -36,7 +33,7 @@ const Stations = () => {
         setHasMore(true);
 
         console.log(data.length);
-        if (data.length < limit) {
+        if (data.length < LIMIT) {
           setHasMore(false); //if response length is less than limit, then there is no more data
         }
       } catch (error) {
@@ -45,7 +42,7 @@ const Stations = () => {
       }
     };
     fetchStations();
-  }, [page, limit, hasMore, query]);
+  }, [page, hasMore, query]);
 
   return (
     <div className="w-screen h-screen">

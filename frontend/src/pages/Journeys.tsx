@@ -9,7 +9,7 @@ import Trip from "../interfaces/trip_interface";
 import "../styles/buttons.css";
 
 //pagination parameters
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 const LIMIT = 20;
 //
 const JOURNEYS_URL = "http://localhost:5000/api/v1/trips";
@@ -19,7 +19,6 @@ const Journeys = () => {
   const [page, setPage] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [query, setQuery] = useState<string>("");
-  const [filter, setFilter] = useState<string>("");
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -85,10 +84,6 @@ const Journeys = () => {
               <th
                 scope="col"
                 className="px-6 py-3"
-                onClick={() => {
-                  setFilter("departure");
-                  setPage(0);
-                }}
               >
                 Departure
               </th>
